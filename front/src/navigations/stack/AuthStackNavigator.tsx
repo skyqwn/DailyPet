@@ -1,15 +1,15 @@
+import AuthHomeScreen from '@/screens/auth/AuthHomeScreen';
+import LoginScreen from '@/screens/auth/LoginScreen';
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import AuthHomeScreen from '../screens/AuthHomeScreen';
-import LoginScreen from '../screens/LoginScreen';
 
 const authNavigations = {
   AUTH_HOME: 'AuthHome',
   LOGIN: 'Login',
 } as const;
 
-type AuthStackParamList = {
+export type AuthStackParamList = {
   [authNavigations.AUTH_HOME]: undefined;
   [authNavigations.LOGIN]: undefined;
 };
