@@ -1,16 +1,16 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
-interface MapHomeScreenProps {}
+interface SettingHomeScreenProps {}
 
-function MapHomeScreen({}: MapHomeScreenProps) {
+function SettingHomeScreen({}: SettingHomeScreenProps) {
   return (
     <View>
-      <Text>gd</Text>
+      <Text>Setting</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({});
 
-export default MapHomeScreen;
+export default SettingHomeScreen;

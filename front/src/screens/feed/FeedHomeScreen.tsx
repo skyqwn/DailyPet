@@ -1,16 +1,16 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
-interface MapHomeScreenProps {}
+interface FeedHomeScreenProps {}
 
-function MapHomeScreen({}: MapHomeScreenProps) {
+function FeedHomeScreen({}: FeedHomeScreenProps) {
   return (
     <View>
-      <Text>gd</Text>
+      <Text>Feed</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({});
 
-export default MapHomeScreen;
+export default FeedHomeScreen;
