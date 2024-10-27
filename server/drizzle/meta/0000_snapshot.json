@@ -1,0 +1,113 @@
+{
+  "id": "f720412c-082b-4302-b6cb-db720fc30b48",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.users": {
+      "name": "users",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "nickname": {
+          "name": "nickname",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "password": {
+          "name": "password",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "users_loginType": {
+          "name": "users_loginType",
+          "type": "users_loginType",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'email'"
+        },
+        "imageUri": {
+          "name": "imageUri",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "kakaoImageUri": {
+          "name": "kakaoImageUri",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "hashedRefreshToken": {
+          "name": "hashedRefreshToken",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "deletedAt": {
+          "name": "deletedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "users_email_unique": {
+          "name": "users_email_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "email"
+          ]
+        }
+      }
+    }
+  },
+  "enums": {
+    "public.users_loginType": {
+      "name": "users_loginType",
+      "schema": "public",
+      "values": [
+        "email",
+        "kakao",
+        "apple"
+      ]
+    }
+  },
+  "schemas": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}
