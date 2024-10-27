@@ -1,16 +1,18 @@
 import React, {useRef} from 'react';
 import {SafeAreaView, StyleSheet, Text, TextInput, View} from 'react-native';
-
 import {useForm, Controller} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 
 import {colors} from '@/constants';
 import CustomButton from '@/components/common/CustomButton';
 import {SignupSchema, zSignupSchema} from '@/types/schema/signup.schema';
+import useAuth from '@/hooks/queries/useAuth';
 
 interface SignupScreenProps {}
 
 function SignupScreen({}: SignupScreenProps) {
+  const {signupMutation, loginMutation} = useAuth();
+
   const passwordRef = useRef<TextInput>(null);
   const passwordConfirmRef = useRef<TextInput>(null);
   const emailRef = useRef<TextInput>(null);
@@ -22,14 +24,26 @@ function SignupScreen({}: SignupScreenProps) {
     resolver: zodResolver(SignupSchema),
   });
 
-  const onSubmit = (data: zSignupSchema) => {
-    console.log(data);
+  const onSubmit = ({
+    email,
+    nickname,
+    password,
+    passwordConfirm,
+  }: zSignupSchema) => {
+    signupMutation.mutate(
+      {nickname, email, password, passwordConfirm},
+      // {
+      //   onSuccess: () => {
+      //     loginMutation.mutate({email, password});
+      //   },
+      // },
+    );
   };
 
   return (
     <SafeAreaView>
       <Controller
-        name="name"
+        name="nickname"
         control={control}
         render={({field: {onChange, onBlur, value}}) => (
           <View>
@@ -46,8 +60,8 @@ function SignupScreen({}: SignupScreenProps) {
                 emailRef.current?.focus();
               }}
             />
-            {errors.name && (
-              <Text style={styles.errorText}>{errors.name.message}</Text>
+            {errors.nickname && (
+              <Text style={styles.errorText}>{errors.nickname.message}</Text>
             )}
           </View>
         )}

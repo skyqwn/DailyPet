@@ -11,7 +11,7 @@ export const SignupSchema = z
     passwordConfirm: z
       .string({message: '비밀번호 확인을 입력해주세요.'})
       .min(8, {message: '비밀번호는 최소 8자 이상이어야 합니다.'}),
-    name: z
+    nickname: z
       .string()
       .min(2, {message: '최소 2글자는 입력해주세요.'})
       .max(10, {message: '최대 10글자까지 입력할 수 있습니다.'}),

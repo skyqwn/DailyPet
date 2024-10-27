@@ -1,9 +1,10 @@
+import useAuth from '@/hooks/queries/useAuth';
 import AuthStackNavigator from '../stack/AuthStackNavigator';
 import MainTabNavigator from '../tab/MainTabNavigator';
 
 function RootNavigator() {
-  const isLoggedIn = false;
-  return <>{isLoggedIn ? <MainTabNavigator /> : <AuthStackNavigator />}</>;
+  const {isLogin} = useAuth();
+  return <>{isLogin ? <MainTabNavigator /> : <AuthStackNavigator />}</>;
 }
 
 export default RootNavigator;
