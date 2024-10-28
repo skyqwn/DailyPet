@@ -7,11 +7,15 @@ import {
   Param,
   Delete,
   UsePipes,
+  UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignupDto } from './dto/signup.dto';
 import { UseZodGuard, ZodValidationPipe } from 'nestjs-zod';
 import { SigninDto } from './dto/signin.dto';
+import { GetUser } from 'src/common/decorators/get-user.decorator';
+import { UserInsertType } from 'src/drizzle/schema/users.schema';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth')
 export class AuthController {
@@ -22,8 +26,21 @@ export class AuthController {
     return this.authService.signup(signupDto);
   }
 
-  @Post('signin')
-  signin(@Body() signinDto: SigninDto) {
-    return this.authService.signin(signinDto);
+  @Post('login')
+  login(@Body() signinDto: SigninDto) {
+    return this.authService.login(signinDto);
+  }
+
+  @Get('refresh')
+  @UseGuards(AuthGuard())
+  refresh(@GetUser() user: UserInsertType) {
+    return this.authService.refreshToken(user);
+  }
+
+  @Get('me')
+  @UseGuards(AuthGuard())
+  getProfile(@GetUser() user: UserInsertType) {
+    console.log(user);
+    return this.authService.getProfile(user);
   }
 }
