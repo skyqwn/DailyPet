@@ -3,15 +3,17 @@ import {SafeAreaView, StyleSheet, Text, TextInput, View} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 
-import {colors} from '@/constants';
+import {authNavigations, colors} from '@/constants';
 import CustomButton from '@/components/common/CustomButton';
-import {SignupSchema, zSignupSchema} from '@/types/schema/signup.schema';
+import {SignupSchema, zSignupSchema} from '@/types/schema';
 import useAuth from '@/hooks/queries/useAuth';
+import {useNavigation} from '@react-navigation/native';
 
 interface SignupScreenProps {}
 
 function SignupScreen({}: SignupScreenProps) {
   const {signupMutation, loginMutation} = useAuth();
+  const navigation = useNavigation();
 
   const passwordRef = useRef<TextInput>(null);
   const passwordConfirmRef = useRef<TextInput>(null);
@@ -32,11 +34,11 @@ function SignupScreen({}: SignupScreenProps) {
   }: zSignupSchema) => {
     signupMutation.mutate(
       {nickname, email, password, passwordConfirm},
-      // {
-      //   onSuccess: () => {
-      //     loginMutation.mutate({email, password});
-      //   },
-      // },
+      {
+        onSuccess: () => {
+          loginMutation.mutate({email, password});
+        },
+      },
     );
   };
 
@@ -50,7 +52,7 @@ function SignupScreen({}: SignupScreenProps) {
             <TextInput
               autoFocus
               style={styles.input}
-              placeholder="이름을 입력해주세요."
+              placeholder="닉네임을 입력해주세요."
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
@@ -138,6 +140,12 @@ function SignupScreen({}: SignupScreenProps) {
         )}
       />
       <CustomButton label="Signup" onPress={handleSubmit(onSubmit)} />
+      <CustomButton
+        label="로그인하기"
+        onPress={() => {
+          navigation.navigate(authNavigations.LOGIN);
+        }}
+      />
     </SafeAreaView>
   );
 }

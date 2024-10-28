@@ -35,12 +35,11 @@ const postLogin = async ({
   password,
 }: RequestUser): Promise<ResponseToken> => {
   const {data} = await axiosInstance.post(`/auth/login`, {email, password});
-
   return data;
 };
 
 const getProfile = async () => {
-  const {data} = await axiosInstance.get(`/auth/profile`);
+  const {data} = await axiosInstance.get(`/auth/me`);
 
   return data;
 };

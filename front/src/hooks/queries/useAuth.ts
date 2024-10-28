@@ -36,7 +36,7 @@ function useLogin(mutationOptions?: UseMutationCustomOptions) {
 
 function useGetRefreshToken() {
   const {isSuccess, data, isError} = useQuery({
-    queryKey: [queryKeys.AUTH, 'getAccessToken'],
+    queryKey: [queryKeys.AUTH, queryKeys.GET_ACCESS_TOKEN],
     queryFn: getAccessToken,
     staleTime: numbers.ACCESS_TOKEN_REFRESH_TIME,
     refetchInterval: numbers.ACCESS_TOKEN_REFRESH_TIME,
