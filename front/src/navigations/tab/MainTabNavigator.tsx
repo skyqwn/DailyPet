@@ -57,23 +57,26 @@ function MainTabNavigator() {
           backgroundColor: '#333333',
           borderRadius: 50,
           paddingBottom: 0,
-          overflow: 'hidden',
           marginHorizontal: 20,
-          marginBottom: 30,
           height: 78,
-          display: 'flex',
-          justifyContent: 'space-between',
-          // alignItems: 'center',
-          // flexDirection: 'row',
-          // position: 'absolute',
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          bottom: 30,
+          overflow: 'hidden',
         },
+
         tabBarIcon: ({focused}) => TabBarIcons(route, focused),
       })}>
       <Tab.Screen
         name={mainTabNavigation.FEED_TAB}
         component={FeedHomeScreen}
       />
-      <Tab.Screen name={mainTabNavigation.MAP_TAB} component={MapHomeScreen} />
+      <Tab.Screen
+        options={{headerShown: false}}
+        name={mainTabNavigation.MAP_TAB}
+        component={MapHomeScreen}
+      />
       <Tab.Screen
         name={mainTabNavigation.CALENDAR_TAB}
         component={CalrendarHomeScreen}
@@ -90,7 +93,7 @@ const styles = StyleSheet.create({
   icon: {
     backgroundColor: colors.GREEN_400,
     padding: 10,
-    borderRadius: 20,
+    borderRadius: 30,
   },
 });
 
