@@ -1,26 +1,21 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Alert, Pressable, StyleSheet, View} from 'react-native';
+import {Pressable, StyleSheet, View} from 'react-native';
 import MapView, {PROVIDER_GOOGLE, LatLng} from 'react-native-maps';
-import Geolocation from '@react-native-community/geolocation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import {colors} from '@/constants';
+import useUserLocation from '@/hooks/useUserLocation';
 
 interface MapHomeScreenProps {}
 
 function MapHomeScreen({}: MapHomeScreenProps) {
-  const [userLocation, setUserLocation] = useState<LatLng>({
-    latitude: 37.5516,
-    longitude: 126.9898,
-  });
-  const [isUserLocationError, setIsUserLocationError] = useState(false);
   const mapRef = useRef<MapView | null>(null);
 
+  const {isUserLocationError, userLocation} = useUserLocation();
+
   const handlePressUserLocation = () => {
-    console.log(1);
     if (isUserLocationError) {
-      Alert.alert('asds');
       return;
     }
 
@@ -31,24 +26,6 @@ function MapHomeScreen({}: MapHomeScreenProps) {
       longitudeDelta: 0.0421,
     });
   };
-
-  useEffect(() => {
-    Geolocation.getCurrentPosition(
-      info => {
-        const {latitude, longitude} = info.coords;
-        setUserLocation({latitude, longitude});
-        console.log(1);
-        console.log(userLocation);
-        setIsUserLocationError(false);
-      },
-      () => {
-        setIsUserLocationError(true);
-      },
-      {
-        enableHighAccuracy: true,
-      },
-    );
-  }, []);
 
   return (
     <>
