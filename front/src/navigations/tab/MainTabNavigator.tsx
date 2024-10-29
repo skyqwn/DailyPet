@@ -8,6 +8,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {colors, mainTabNavigation} from '@/constants';
 import {StyleSheet, View} from 'react-native';
 import {RouteProp} from '@react-navigation/native';
+import MapStackNavigator from '../stack/MapStackNavigator';
 
 export type MainTabParamList = {
   [mainTabNavigation.FEED_TAB]: undefined;
@@ -75,7 +76,7 @@ function MainTabNavigator() {
       <Tab.Screen
         options={{headerShown: false}}
         name={mainTabNavigation.MAP_TAB}
-        component={MapHomeScreen}
+        component={MapStackNavigator}
       />
       <Tab.Screen
         name={mainTabNavigation.CALENDAR_TAB}

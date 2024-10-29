@@ -11,4 +11,8 @@ const mainTabNavigation = {
   SETTING_TAB: 'SeetingTab',
 } as const;
 
-export {authNavigations, mainTabNavigation};
+const mapNavigations = {
+  MAP_HOME: 'MapHome',
+} as const;
+
+export {authNavigations, mainTabNavigation, mapNavigations};
