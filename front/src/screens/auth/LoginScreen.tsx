@@ -24,6 +24,7 @@ function LoginScreen({}: LoginScreenProps) {
   });
 
   const onSubmit = ({email, password}: zLoginSchema) => {
+    console.log(email, password);
     loginMutation.mutate({email, password});
   };
 

@@ -43,6 +43,9 @@
 		5DCACB8F33CDC322A6C60F78 /* libPods-DaliyPet.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DaliyPet.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = DaliyPet/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-DaliyPet-DaliyPetTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DaliyPet-DaliyPetTests.release.xcconfig"; path = "Target Support Files/Pods-DaliyPet-DaliyPetTests/Pods-DaliyPet-DaliyPetTests.release.xcconfig"; sourceTree = "<group>"; };
+		98AB48532CD084E700FED845 /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
+		98AB48542CD084E700FED845 /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		98AB48552CD084E700FED845 /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -86,6 +89,7 @@
 		13B07FAE1A68108700A75B9A /* DaliyPet */ = {
 			isa = PBXGroup;
 			children = (
+				98AB48522CD0845400FED845 /* Fonts */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -135,6 +139,16 @@
 				00E356EE1AD99517003FC87E /* DaliyPetTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		98AB48522CD0845400FED845 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				98AB48552CD084E700FED845 /* Ionicons.ttf */,
+				98AB48542CD084E700FED845 /* MaterialIcons.ttf */,
+				98AB48532CD084E700FED845 /* Octicons.ttf */,
+			);
+			name = Fonts;
 			sourceTree = "<group>";
 		};
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
