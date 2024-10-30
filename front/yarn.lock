@@ -6090,6 +6090,11 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
+react-native-config@1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/react-native-config/-/react-native-config-1.5.1.tgz#73c94f511493e9b7ff9350cdf351d203a1b05acc"
+  integrity sha512-g1xNgt1tV95FCX+iWz6YJonxXkQX0GdD3fB8xQtR1GUBEqweB9zMROW77gi2TygmYmUkBI7LU4pES+zcTyK4HA==
+
 react-native-encrypted-storage@^4.0.3:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/react-native-encrypted-storage/-/react-native-encrypted-storage-4.0.3.tgz#2a4d65459870511e8f4ccd22f02433dab7fa5e91"
@@ -6111,6 +6116,11 @@ react-native-maps@1.8.3:
   integrity sha512-ilkknT9Rvy0Cz6RTdtowGUB5XI/hFNU/QsUv1KRUE7m7vKxEIaKvhVpDxZ2yee7uyXACn/uoSYggakZ//8VSiQ==
   dependencies:
     "@types/geojson" "^7946.0.10"
+
+react-native-permissions@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-permissions/-/react-native-permissions-5.1.0.tgz#1f132dc0a07c330e9b746cab4c384f41b05703cd"
+  integrity sha512-bRV8OHFAbLulElvbJ/BLtrYNV9WXStxknCuI5mTGJNIz6sl8sDUA0OhKpbtb0rqqDdJ2mbR1ZijhGkCDOaT0tA==
 
 react-native-reanimated@3.3.0:
   version "3.3.0"

@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useRef} from 'react';
 import {Pressable, StyleSheet, View} from 'react-native';
 import MapView, {PROVIDER_GOOGLE, LatLng} from 'react-native-maps';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -6,11 +6,14 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import {colors} from '@/constants';
 import useUserLocation from '@/hooks/useUserLocation';
+import Config from 'react-native-config';
+import usePermission from '@/hooks/usePermission';
 
 interface MapHomeScreenProps {}
 
 function MapHomeScreen({}: MapHomeScreenProps) {
   const mapRef = useRef<MapView | null>(null);
+  usePermission('LOCATION');
 
   const {isUserLocationError, userLocation} = useUserLocation();
 
@@ -51,11 +54,11 @@ const styles = StyleSheet.create({
   },
   buttonList: {
     position: 'absolute',
-    bottom: 150,
+    top: 150,
     right: 10,
   },
   mapButton: {
-    backgroundColor: colors.GREEN_400,
+    backgroundColor: colors.GREEN_500,
     marginVertical: 5,
     height: 48,
     width: 48,
