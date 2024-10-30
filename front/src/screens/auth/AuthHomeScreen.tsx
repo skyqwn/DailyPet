@@ -1,6 +1,5 @@
 import React, {useRef, useState} from 'react';
 import {
-  Image,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -9,6 +8,7 @@ import {
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 import {StackScreenProps} from '@react-navigation/stack';
+import LottieView from 'lottie-react-native';
 
 import {AuthStackParamList} from '@/navigations/stack/AuthStackNavigator';
 import CustomButton from '@/components/common/CustomButton';
@@ -41,10 +41,12 @@ function AuthHomeScreen({navigation}: AuthHomeScreenProps) {
         onIndexChanged={index => setActiveIndex(index)}>
         {onboarding.map(item => (
           <View style={styles.slideContainer} key={item.id}>
-            <Image
-              style={styles.slideImage}
-              source={require('../../assets/user.jpeg')}
-              resizeMode="contain"
+            <LottieView
+              source={item.image}
+              // source={require('../../assets/dog.json')}
+              style={{width: '80%', height: '40%'}}
+              autoPlay
+              loop
             />
             <View style={styles.titleContainer}>
               <Text style={styles.slideTitle}>{item.title}</Text>
