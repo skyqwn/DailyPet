@@ -37,8 +37,8 @@ function MapHomeScreen({}: MapHomeScreenProps) {
     mapRef.current?.animateToRegion({
       latitude: latitude,
       longitude: longitude,
-      latitudeDelta: 0.0722,
-      longitudeDelta: 0.0821,
+      latitudeDelta: 0.001,
+      longitudeDelta: 0.008,
     });
   };
 
