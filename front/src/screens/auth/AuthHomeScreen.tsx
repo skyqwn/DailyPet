@@ -43,7 +43,6 @@ function AuthHomeScreen({navigation}: AuthHomeScreenProps) {
           <View style={styles.slideContainer} key={item.id}>
             <LottieView
               source={item.image}
-              // source={require('../../assets/dog.json')}
               style={{width: '80%', height: '40%'}}
               autoPlay
               loop

@@ -8,16 +8,19 @@ import CustomButton from '@/components/common/CustomButton';
 import {SignupSchema, zSignupSchema} from '@/types/schema';
 import useAuth from '@/hooks/queries/useAuth';
 import {useNavigation} from '@react-navigation/native';
+import {Hoshi} from 'react-native-textinput-effects';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {AuthStackParamList} from '@/navigations/stack/AuthStackNavigator';
 
-interface SignupScreenProps {}
+type Navigation = StackNavigationProp<AuthStackParamList>;
 
-function SignupScreen({}: SignupScreenProps) {
+function SignupScreen() {
   const {signupMutation, loginMutation} = useAuth();
-  const navigation = useNavigation();
+  const navigation = useNavigation<Navigation>();
 
-  const passwordRef = useRef<TextInput>(null);
-  const passwordConfirmRef = useRef<TextInput>(null);
-  const emailRef = useRef<TextInput>(null);
+  const passwordRef = useRef<Hoshi>(null);
+  const passwordConfirmRef = useRef<Hoshi>(null);
+  const emailRef = useRef<Hoshi>(null);
   const {
     control,
     handleSubmit,
@@ -43,21 +46,24 @@ function SignupScreen({}: SignupScreenProps) {
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <Controller
         name="nickname"
         control={control}
         render={({field: {onChange, onBlur, value}}) => (
           <View>
-            <TextInput
-              autoFocus
+            <Hoshi
+              label={'닉네임'}
+              borderColor={'#aee2c9'}
+              inputPadding={16}
+              labelStyle={{color: '#008445', fontWeight: '700'}}
               style={styles.input}
-              placeholder="닉네임을 입력해주세요."
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
               returnKeyType="next"
               blurOnSubmit={false}
+              autoCapitalize="none"
               onSubmitEditing={() => {
                 emailRef.current?.focus();
               }}
@@ -73,10 +79,13 @@ function SignupScreen({}: SignupScreenProps) {
         control={control}
         render={({field: {onChange, onBlur, value}}) => (
           <View>
-            <TextInput
+            <Hoshi
+              label={'이메일'}
+              borderColor={'#aee2c9'}
+              inputPadding={16}
+              labelStyle={{color: '#008445', fontWeight: '700'}}
               ref={emailRef}
               style={styles.input}
-              placeholder="email"
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
@@ -97,10 +106,13 @@ function SignupScreen({}: SignupScreenProps) {
         control={control}
         render={({field: {onChange, onBlur, value}}) => (
           <View>
-            <TextInput
+            <Hoshi
+              label={'비밀번호'}
+              borderColor={'#aee2c9'}
+              inputPadding={16}
+              labelStyle={{color: '#008445', fontWeight: '700'}}
               ref={passwordRef}
               style={styles.input}
-              placeholder="password"
               textContentType="oneTimeCode"
               onBlur={onBlur}
               onChangeText={onChange}
@@ -118,10 +130,13 @@ function SignupScreen({}: SignupScreenProps) {
         control={control}
         render={({field: {onChange, onBlur, value}}) => (
           <View>
-            <TextInput
+            <Hoshi
+              label={'비밀번호 확인'}
+              borderColor={'#aee2c9'}
+              inputPadding={16}
+              labelStyle={{color: '#008445', fontWeight: '700'}}
               ref={passwordConfirmRef}
               style={styles.input}
-              placeholder="passwordConfirm"
               textContentType="oneTimeCode"
               onBlur={onBlur}
               onChangeText={onChange}
@@ -151,6 +166,10 @@ function SignupScreen({}: SignupScreenProps) {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    gap: 10,
+  },
   input: {
     fontSize: 16,
     color: colors.BLACK,

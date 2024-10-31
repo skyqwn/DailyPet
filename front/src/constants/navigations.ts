@@ -13,6 +13,7 @@ const mainTabNavigation = {
 
 const mapNavigations = {
   MAP_HOME: 'MapHome',
+  ADD_POST: 'AddPost',
 } as const;
 
 export {authNavigations, mainTabNavigation, mapNavigations};

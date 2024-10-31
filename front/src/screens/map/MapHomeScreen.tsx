@@ -1,23 +1,58 @@
-import React, {useRef} from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
-import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import React, {useRef, useState} from 'react';
+import {Alert, Pressable, StyleSheet, View} from 'react-native';
+import MapView, {
+  Callout,
+  LatLng,
+  LongPressEvent,
+  Marker,
+  PROVIDER_GOOGLE,
+} from 'react-native-maps';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-import {colors} from '@/constants';
+import {alerts, colors, mapNavigations} from '@/constants';
 import useUserLocation from '@/hooks/useUserLocation';
 import usePermission from '@/hooks/usePermission';
 import Config from 'react-native-config';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+import CustomMarker from '@/components/CustomMarker';
+import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
+import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
+import {MainTabParamList} from '@/navigations/tab/MainTabNavigator';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {MapStackParamList} from '@/navigations/stack/MapStackNavigator';
 
-interface MapHomeScreenProps {}
+type Navigation = CompositeNavigationProp<
+  StackNavigationProp<MapStackParamList>,
+  BottomTabNavigationProp<MainTabParamList>
+>;
 
-function MapHomeScreen({}: MapHomeScreenProps) {
+function MapHomeScreen() {
   const mapRef = useRef<MapView | null>(null);
+  const navigation = useNavigation<Navigation>();
   const googlePlaceApiKey = Config.GOOGLE_API_KEY;
   const insets = useSafeAreaInsets();
+  const [selectLocation, setSelectLocation] = useState<LatLng | null>();
+
   usePermission('LOCATION');
+
+  const handleLongPressMapView = ({nativeEvent}: LongPressEvent) => {
+    setSelectLocation(nativeEvent.coordinate);
+  };
+
+  const handlePressAddPost = () => {
+    if (!selectLocation) {
+      return Alert.alert(
+        alerts.NOT_SELECTED_LOCATION.TITLE,
+        alerts.NOT_SELECTED_LOCATION.DESCRIPTION,
+      );
+    }
+    navigation.navigate(mapNavigations.ADD_POST, {
+      location: selectLocation,
+    });
+
+    setSelectLocation(null);
+  };
 
   const {isUserLocationError, userLocation} = useUserLocation();
   const handlePressUserLocation = () => {
@@ -44,11 +79,29 @@ function MapHomeScreen({}: MapHomeScreenProps) {
 
   return (
     <View style={styles.container}>
+      {/* GoogleMap */}
       <MapView
         ref={mapRef}
         style={styles.container}
         provider={PROVIDER_GOOGLE}
-      />
+        showsUserLocation
+        followsUserLocation
+        showsMyLocationButton={false}
+        onLongPress={handleLongPressMapView}>
+        <CustomMarker
+          color="RED"
+          score={1}
+          coordinate={{latitude: 37.5516, longitude: 126.9898}}
+        />
+
+        {selectLocation && (
+          <Callout>
+            <Marker coordinate={selectLocation} />
+          </Callout>
+        )}
+      </MapView>
+
+      {/* GoogleAutoInput */}
       <View style={[styles.placeContainer, {marginTop: insets.top + 10}]}>
         <GooglePlacesAutocomplete
           fetchDetails={true}
@@ -94,10 +147,14 @@ function MapHomeScreen({}: MapHomeScreenProps) {
           }}
         />
       </View>
-      {/* <GoogleTextInput /> */}
+
+      {/* Side Button  */}
       <View style={styles.buttonList}>
         <Pressable style={styles.mapButton} onPress={handlePressUserLocation}>
           <MaterialIcons name="my-location" color={colors.WHITE} size={25} />
+        </Pressable>
+        <Pressable style={styles.mapButton} onPress={handlePressAddPost}>
+          <MaterialIcons name="add" color={colors.WHITE} size={25} />
         </Pressable>
       </View>
     </View>

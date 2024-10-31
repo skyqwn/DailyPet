@@ -5,15 +5,15 @@ import {zodResolver} from '@hookform/resolvers/zod';
 
 import {colors} from '@/constants';
 import CustomButton from '@/components/common/CustomButton';
-import {SignupSchema, zSignupSchema} from '@/types/schema/signup.schema';
 import useAuth from '@/hooks/queries/useAuth';
 import {LoginSchema, zLoginSchema} from '@/types/schema';
+import {Hoshi} from 'react-native-textinput-effects';
 
 interface LoginScreenProps {}
 
 function LoginScreen({}: LoginScreenProps) {
   const {loginMutation} = useAuth();
-  const passwordRef = useRef<TextInput>(null);
+  const passwordRef = useRef<Hoshi>(null);
 
   const {
     control,
@@ -24,7 +24,6 @@ function LoginScreen({}: LoginScreenProps) {
   });
 
   const onSubmit = ({email, password}: zLoginSchema) => {
-    console.log(email, password);
     loginMutation.mutate({email, password});
   };
 
@@ -35,14 +34,17 @@ function LoginScreen({}: LoginScreenProps) {
         control={control}
         render={({field: {onChange, onBlur, value}}) => (
           <View>
-            <TextInput
-              autoFocus
+            <Hoshi
+              label={'이메일'}
+              borderColor={'#aee2c9'}
+              inputPadding={16}
+              labelStyle={{color: '#008445', fontWeight: '700'}}
               style={styles.input}
-              placeholder="email"
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
               returnKeyType="next"
+              autoCapitalize={'none'}
               blurOnSubmit={false}
               onSubmitEditing={() => {
                 passwordRef.current?.focus();
@@ -59,10 +61,13 @@ function LoginScreen({}: LoginScreenProps) {
         control={control}
         render={({field: {onChange, onBlur, value}}) => (
           <View>
-            <TextInput
+            <Hoshi
+              label={'비밀번호'}
+              borderColor={'#aee2c9'}
+              inputPadding={16}
+              labelStyle={{color: '#008445', fontWeight: '700'}}
               ref={passwordRef}
               style={styles.input}
-              placeholder="password"
               textContentType="oneTimeCode"
               onBlur={onBlur}
               onChangeText={onChange}
