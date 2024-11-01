@@ -6260,6 +6260,11 @@ react-native-google-places-autocomplete@^2.5.7:
     qs "~6.9.1"
     uuid "^10.0.0"
 
+react-native-image-crop-picker@^0.41.4:
+  version "0.41.4"
+  resolved "https://registry.yarnpkg.com/react-native-image-crop-picker/-/react-native-image-crop-picker-0.41.4.tgz#0d4bc05f97767286b23ce661d2d6b7208da4325f"
+  integrity sha512-busd3bjSf3afMF3V30+4bN6V92jBTp22zEamPj0QtAQz8MQT4zmXLeZ9m2KRIXylFeJM94We9AEAgg/TvWQUvw==
+
 react-native-maps@1.8.3:
   version "1.8.3"
   resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-1.8.3.tgz#6dbdae999704dd19faba49912282978b2405c581"

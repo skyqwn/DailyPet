@@ -27,6 +27,8 @@ import ScoreInput from '@/components/post/ScoreInput';
 import DatePickerOption from '@/components/post/DatePickerOption';
 import {getDateWithSeperator} from '@/utils';
 import useModal from '@/hooks/useModal';
+import ImageInput from '@/components/post/ImageInput';
+import usePermission from '@/hooks/usePermission';
 
 type AddPostScreenProps = StackScreenProps<
   MapStackParamList,
@@ -41,6 +43,7 @@ function AddPostScreen({route, navigation}: AddPostScreenProps) {
   const [score, setScore] = useState(5);
   const [date, setDate] = useState(new Date());
   const [isPicked, setIsPicked] = useState(false);
+  usePermission('PHOTO');
 
   const address = useGetAddress(location);
   const createPost = useMutateCreatePost();
@@ -184,6 +187,7 @@ function AddPostScreen({route, navigation}: AddPostScreenProps) {
           />
         </View>
         <ScoreInput score={score} onChangeScore={handleChangeScore} />
+        <ImageInput onChange={() => {}} />
       </ScrollView>
     </SafeAreaView>
   );
