@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -19,6 +19,11 @@ import {zodResolver} from '@hookform/resolvers/zod';
 import {Hoshi} from 'react-native-textinput-effects';
 import {AddPostSchema, zAddPostSchema} from '@/types/schema';
 import AddPostHeaderRight from '@/components/post/AddPostHeaderRight';
+import useMutateCreatePost from '@/hooks/queries/useMutateCreatePost';
+import {MarkerColor} from '@/types';
+import useGetAddress from '@/hooks/useGetAddress';
+import MarkerSelector from '@/components/post/MarkerSelector';
+import ScoreInput from '@/components/post/ScoreInput';
 
 type AddPostScreenProps = StackScreenProps<
   MapStackParamList,
@@ -26,18 +31,49 @@ type AddPostScreenProps = StackScreenProps<
 >;
 
 function AddPostScreen({route, navigation}: AddPostScreenProps) {
+  const [markerColor, setMarkerColor] = useState<MarkerColor>('RED');
+
+  const [score, setScore] = useState(5);
   const {location} = route.params;
+  const address = useGetAddress(location);
+
   const {
     control,
     formState: {errors},
     handleSubmit,
   } = useForm<zAddPostSchema>({
-    defaultValues: {},
+    defaultValues: {
+      title: '',
+      description: '',
+    },
     resolver: zodResolver(AddPostSchema),
   });
+  const createPost = useMutateCreatePost();
+
+  const handleSelectMarker = (name: MarkerColor) => {
+    setMarkerColor(name);
+  };
+
+  const handleChangeScore = (score: number) => {
+    setScore(score);
+  };
 
   const onSubmit = ({description, title}: zAddPostSchema) => {
-    console.log(title, description);
+    const body = {
+      date: new Date(),
+      title,
+      description,
+      color: markerColor,
+      score,
+      imageUris: [],
+      address,
+    };
+    createPost.mutate(
+      {...location, ...body},
+      {
+        onSuccess: () => navigation.goBack(),
+      },
+    );
   };
 
   useEffect(() => {
@@ -51,7 +87,7 @@ function AddPostScreen({route, navigation}: AddPostScreenProps) {
       <ScrollView style={styles.contentContainer}>
         <View style={styles.inputContainer}>
           <InputField
-            value=""
+            value={address}
             disabled
             icon={
               <Octicons name="location" size={16} color={colors.GRAY_500} />
@@ -115,8 +151,13 @@ function AddPostScreen({route, navigation}: AddPostScreenProps) {
               </View>
             )}
           />
-          <CustomButton label="장소 등록" onPress={handleSubmit(onSubmit)} />
+          <MarkerSelector
+            markerColor={markerColor}
+            score={score}
+            onPressMarker={handleSelectMarker}
+          />
         </View>
+        <ScoreInput score={score} onChangeScore={handleChangeScore} />
       </ScrollView>
     </SafeAreaView>
   );

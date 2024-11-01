@@ -7,20 +7,21 @@ import MapView, {
   Marker,
   PROVIDER_GOOGLE,
 } from 'react-native-maps';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
-import {alerts, colors, mapNavigations} from '@/constants';
-import useUserLocation from '@/hooks/useUserLocation';
-import usePermission from '@/hooks/usePermission';
-import Config from 'react-native-config';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
-import CustomMarker from '@/components/CustomMarker';
 import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
-import {MainTabParamList} from '@/navigations/tab/MainTabNavigator';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {StackNavigationProp} from '@react-navigation/stack';
+import Config from 'react-native-config';
+
 import {MapStackParamList} from '@/navigations/stack/MapStackNavigator';
+import {MainTabParamList} from '@/navigations/tab/MainTabNavigator';
+import {alerts, colors, mapNavigations} from '@/constants';
+import useUserLocation from '@/hooks/useUserLocation';
+import CustomMarker from '@/components/CustomMarker';
+import usePermission from '@/hooks/usePermission';
+import useGetMarkers from '@/hooks/queries/useGetMarkers';
 
 type Navigation = CompositeNavigationProp<
   StackNavigationProp<MapStackParamList>,
@@ -33,6 +34,7 @@ function MapHomeScreen() {
   const googlePlaceApiKey = Config.GOOGLE_API_KEY;
   const insets = useSafeAreaInsets();
   const [selectLocation, setSelectLocation] = useState<LatLng | null>();
+  const {data: markers = []} = useGetMarkers();
 
   usePermission('LOCATION');
 
@@ -88,6 +90,15 @@ function MapHomeScreen() {
         followsUserLocation
         showsMyLocationButton={false}
         onLongPress={handleLongPressMapView}>
+        {markers.map(({id, color, score, ...coordinate}) => (
+          <CustomMarker
+            key={id}
+            color={color}
+            score={score}
+            coordinate={coordinate}
+            // onPress={() => handlePressMarker(id, coordinate)}
+          />
+        ))}
         <CustomMarker
           color="RED"
           score={1}
