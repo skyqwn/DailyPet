@@ -138,4 +138,16 @@ export class AuthService {
 
     return { ...rest };
   }
+
+  async deleteRefreshToken(user: UserInsertType) {
+    try {
+      await this.db
+        .update(users)
+        .set({ hashedRefreshToken: null })
+        .where(eq(users.id, user.id));
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException();
+    }
+  }
 }

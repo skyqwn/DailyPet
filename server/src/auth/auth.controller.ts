@@ -31,6 +31,12 @@ export class AuthController {
     return this.authService.login(signinDto);
   }
 
+  @Post('logout')
+  @UseGuards(AuthGuard())
+  logout(@GetUser() user: UserInsertType) {
+    return this.authService.deleteRefreshToken(user);
+  }
+
   @Get('refresh')
   @UseGuards(AuthGuard())
   refresh(@GetUser() user: UserInsertType) {
@@ -40,7 +46,6 @@ export class AuthController {
   @Get('me')
   @UseGuards(AuthGuard())
   getProfile(@GetUser() user: UserInsertType) {
-    console.log(user);
     return this.authService.getProfile(user);
   }
 }
