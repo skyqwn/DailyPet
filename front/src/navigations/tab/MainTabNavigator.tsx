@@ -5,7 +5,7 @@ import FeedHomeScreen from '@/screens/feed/FeedHomeScreen';
 import SettingHomeScreen from '@/screens/setting/SettingHomeScreen';
 import CalrendarHomeScreen from '@/screens/calrendar/CalrendarHomeScreen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {colors, mainTabNavigation} from '@/constants';
+import {colors, mainTabNavigation, mapNavigations} from '@/constants';
 import {StyleSheet, View} from 'react-native';
 import {RouteProp} from '@react-navigation/native';
 import MapStackNavigator from '../stack/MapStackNavigator';

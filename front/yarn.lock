@@ -6223,6 +6223,11 @@ react-native-config@1.5.1:
   resolved "https://registry.yarnpkg.com/react-native-config/-/react-native-config-1.5.1.tgz#73c94f511493e9b7ff9350cdf351d203a1b05acc"
   integrity sha512-g1xNgt1tV95FCX+iWz6YJonxXkQX0GdD3fB8xQtR1GUBEqweB9zMROW77gi2TygmYmUkBI7LU4pES+zcTyK4HA==
 
+react-native-date-picker@^5.0.7:
+  version "5.0.7"
+  resolved "https://registry.yarnpkg.com/react-native-date-picker/-/react-native-date-picker-5.0.7.tgz#24161d30c6dca8627afe1aa5a55a389421fdfba4"
+  integrity sha512-/RodyCZWjb+f3f4YHqKbWFYczGm+tNngwbVSB6MLGgt5Kl7LQXpv4QE6ybnHW+DM4LteTP8A6lj8LEkQ7+usLQ==
+
 react-native-encrypted-storage@^4.0.3:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/react-native-encrypted-storage/-/react-native-encrypted-storage-4.0.3.tgz#2a4d65459870511e8f4ccd22f02433dab7fa5e91"

@@ -24,6 +24,9 @@ import {MarkerColor} from '@/types';
 import useGetAddress from '@/hooks/useGetAddress';
 import MarkerSelector from '@/components/post/MarkerSelector';
 import ScoreInput from '@/components/post/ScoreInput';
+import DatePickerOption from '@/components/post/DatePickerOption';
+import {getDateWithSeperator} from '@/utils';
+import useModal from '@/hooks/useModal';
 
 type AddPostScreenProps = StackScreenProps<
   MapStackParamList,
@@ -31,11 +34,16 @@ type AddPostScreenProps = StackScreenProps<
 >;
 
 function AddPostScreen({route, navigation}: AddPostScreenProps) {
-  const [markerColor, setMarkerColor] = useState<MarkerColor>('RED');
-
-  const [score, setScore] = useState(5);
   const {location} = route.params;
+  const dateOption = useModal();
+
+  const [markerColor, setMarkerColor] = useState<MarkerColor>('RED');
+  const [score, setScore] = useState(5);
+  const [date, setDate] = useState(new Date());
+  const [isPicked, setIsPicked] = useState(false);
+
   const address = useGetAddress(location);
+  const createPost = useMutateCreatePost();
 
   const {
     control,
@@ -48,7 +56,15 @@ function AddPostScreen({route, navigation}: AddPostScreenProps) {
     },
     resolver: zodResolver(AddPostSchema),
   });
-  const createPost = useMutateCreatePost();
+
+  const handleConfirmDate = () => {
+    setIsPicked(true);
+    dateOption.hide();
+  };
+
+  const handleChangeDate = (pickedDate: Date) => {
+    setDate(pickedDate);
+  };
 
   const handleSelectMarker = (name: MarkerColor) => {
     setMarkerColor(name);
@@ -60,7 +76,7 @@ function AddPostScreen({route, navigation}: AddPostScreenProps) {
 
   const onSubmit = ({description, title}: zAddPostSchema) => {
     const body = {
-      date: new Date(),
+      date,
       title,
       description,
       color: markerColor,
@@ -93,7 +109,11 @@ function AddPostScreen({route, navigation}: AddPostScreenProps) {
               <Octicons name="location" size={16} color={colors.GRAY_500} />
             }
           />
-          <CustomButton variant="outlined" label="날짜 선택" />
+          <CustomButton
+            variant="outlined"
+            label={isPicked ? getDateWithSeperator(date, '. ') : '날짜 선택'}
+            onPress={dateOption.show}
+          />
           <Controller
             name="title"
             control={control}
@@ -155,6 +175,12 @@ function AddPostScreen({route, navigation}: AddPostScreenProps) {
             markerColor={markerColor}
             score={score}
             onPressMarker={handleSelectMarker}
+          />
+          <DatePickerOption
+            date={date}
+            isVisible={dateOption.isVisible}
+            onChangeDate={handleChangeDate}
+            onConfirmDate={handleConfirmDate}
           />
         </View>
         <ScoreInput score={score} onChangeScore={handleChangeScore} />
