@@ -44,7 +44,7 @@ function CustomButton({
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 20,
+    borderRadius: 10,
     justifyContent: 'center',
     flexDirection: 'row',
   },

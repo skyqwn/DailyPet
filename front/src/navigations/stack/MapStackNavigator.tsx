@@ -15,11 +15,25 @@ const Stack = createStackNavigator<MapStackParamList>();
 
 function MapStackNavigator() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        cardStyle: {
+          backgroundColor: 'white',
+        },
+        headerStyle: {
+          backgroundColor: 'white',
+          shadowColor: 'gray',
+        },
+        headerTitleStyle: {
+          fontSize: 15,
+        },
+        headerTintColor: 'black',
+      }}>
       <Stack.Screen
         name={mapNavigations.MAP_HOME}
         component={MapHomeScreen}
         options={{
+          headerTitle: ' ',
           headerShown: false,
         }}
       />
