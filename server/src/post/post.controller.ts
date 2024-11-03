@@ -22,14 +22,13 @@ export class PostController {
 
   @Get('markers/my')
   getAllMarkers(@GetUser() user: UserInsertType) {
-    return this.postService.getAllMarkers;
+    return this.postService.getAllMarkers(user);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.postService.findOne(+id);
+  @Post('/')
+  createPost(@Body() body: CreatePostDto, @GetUser() user: UserInsertType) {
+    return this.postService.createPost(body, user);
   }
-
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
     return this.postService.update(+id, updatePostDto);

@@ -1,4 +1,8 @@
-import { Inject, Injectable } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { UserInsertType } from 'src/drizzle/schema/users.schema';
@@ -30,8 +34,98 @@ export class PostService {
     }
   }
 
-  findAll() {
-    return `This action returns all post`;
+  async createPost(
+    {
+      address,
+      color,
+      date,
+      description,
+      imageUris,
+      latitude,
+      longitude,
+      score,
+      title,
+    }: CreatePostDto,
+    user: UserInsertType,
+  ) {
+    try {
+      const newPost = await this.db.transaction(async (tx) => {
+        const post = await tx
+          .insert(posts)
+          .values({
+            address,
+            description,
+            latitude,
+            longitude,
+            score,
+            date: new Date(date),
+            title,
+            color,
+            userId: user.id,
+          })
+          .returning();
+        console.log(post);
+        // 이미지 추가
+        // const newImages = await Promise.all(
+        //   imageUris.map((image) =>
+        //     tx
+        //       .insert(images)
+        //       .values({
+        //         uri: image.uri,
+        //         postId: post[0].id,
+        //       })
+        //       .returning(),
+        //   ),
+        // );
+
+        return {
+          ...post[0],
+          // images: newImages.map((image) => image[0]),
+        };
+      });
+
+      return newPost;
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException(
+        '장소를 추가하는 도중 에러가 발생했습니다.',
+      );
+    }
+
+    // try {
+    //   const newPost = await this.db
+    //     .insert(posts)
+    //     .values({
+    //       address,
+    //       description,
+    //       latitude,
+    //       longitude,
+    //       score,
+    //       title,
+    //       color,
+    //       userId: user.id,
+    //     })
+    //     .returning();
+
+    //   const newImages = await Promise.all(
+    //     imageUris.map((image) =>
+    //       this.db
+    //         .insert(images)
+    //         .values({
+    //           uri: image.uri,
+    //           postId: newPost[0].id,
+    //         })
+    //         .returning(),
+    //     ),
+    //   );
+
+    //   return {
+    //     ...newPost[0],
+    //     images: newImages.map((image) => image[0]),
+    //   };
+    // } catch (error) {
+    //   console.log(error);
+    // }
   }
 
   findOne(id: number) {
