@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { PostService } from './post.service';
 import { CreatePostDto } from './dto/create-post.dto';
@@ -29,6 +30,14 @@ export class PostController {
   createPost(@Body() body: CreatePostDto, @GetUser() user: UserInsertType) {
     return this.postService.createPost(body, user);
   }
+  @Get('/:id')
+  getPostById(
+    @Param('id', ParseIntPipe) id: number,
+    @GetUser() user: UserInsertType,
+  ) {
+    return this.postService.getPostById(id, user);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
     return this.postService.update(+id, updatePostDto);

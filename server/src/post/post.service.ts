@@ -2,14 +2,17 @@ import {
   Inject,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { UserInsertType } from 'src/drizzle/schema/users.schema';
 import { DRIZZLE } from 'src/drizzle/drizzle.module';
 import { DrizzleDB } from 'src/drizzle/types/drizzle';
-import { eq } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 import { posts } from 'src/drizzle/schema/posts.schema';
+import { images } from 'src/drizzle/schema/images.schema';
+import { favorite } from 'src/drizzle/schema/favorite.schema';
 
 @Injectable()
 export class PostService {
@@ -64,23 +67,21 @@ export class PostService {
             userId: user.id,
           })
           .returning();
-        console.log(post);
-        // 이미지 추가
-        // const newImages = await Promise.all(
-        //   imageUris.map((image) =>
-        //     tx
-        //       .insert(images)
-        //       .values({
-        //         uri: image.uri,
-        //         postId: post[0].id,
-        //       })
-        //       .returning(),
-        //   ),
-        // );
+        const newImages = await Promise.all(
+          imageUris.map((image) =>
+            tx
+              .insert(images)
+              .values({
+                uri: image.uri,
+                postId: post[0].id,
+              })
+              .returning(),
+          ),
+        );
 
         return {
           ...post[0],
-          // images: newImages.map((image) => image[0]),
+          images: newImages.map((image) => image[0]),
         };
       });
 
@@ -91,45 +92,42 @@ export class PostService {
         '장소를 추가하는 도중 에러가 발생했습니다.',
       );
     }
-
-    // try {
-    //   const newPost = await this.db
-    //     .insert(posts)
-    //     .values({
-    //       address,
-    //       description,
-    //       latitude,
-    //       longitude,
-    //       score,
-    //       title,
-    //       color,
-    //       userId: user.id,
-    //     })
-    //     .returning();
-
-    //   const newImages = await Promise.all(
-    //     imageUris.map((image) =>
-    //       this.db
-    //         .insert(images)
-    //         .values({
-    //           uri: image.uri,
-    //           postId: newPost[0].id,
-    //         })
-    //         .returning(),
-    //     ),
-    //   );
-
-    //   return {
-    //     ...newPost[0],
-    //     images: newImages.map((image) => image[0]),
-    //   };
-    // } catch (error) {
-    //   console.log(error);
-    // }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} post`;
+  async getPostById(id: number, user: UserInsertType) {
+    try {
+      const result = await this.db
+        .select({
+          post: posts,
+          images: images,
+          favorite,
+        })
+        .from(posts)
+        .leftJoin(images, eq(images.postId, posts.id))
+        .leftJoin(
+          favorite,
+          and(eq(favorite.postId, posts.id), eq(favorite.userId, user.id)),
+        )
+        .where(and(eq(posts.userId, user.id), eq(posts.id, id)))
+        .execute();
+
+      if (!result.length) {
+        throw new NotFoundException('존재하지 않는 피드입니다.');
+      }
+
+      // 좋아요 갯수와 isFavorite 포함해서 반환
+      const post = result[0].post;
+      const postImages = result.map((r) => r.images).filter(Boolean);
+      const isFavorite = result.some((r) => r.favorite !== null);
+
+      return {
+        ...post,
+        images: postImages,
+        isFavorite,
+      };
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   update(id: number, updatePostDto: UpdatePostDto) {
