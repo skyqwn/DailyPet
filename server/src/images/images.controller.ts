@@ -9,6 +9,7 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { getUniqueFileName } from 'src/common/decorators/util';
+import { ResizeImagePipe } from './pipes/resize-image.pipe';
 
 @Controller('images')
 @UseGuards(AuthGuard())
@@ -19,8 +20,11 @@ export class ImagesController {
       limits: { fileSize: 20 * 1024 * 1024 },
     }),
   )
-  async uploadImages(@UploadedFiles() files: Express.Multer.File[]) {
+  async uploadImages(
+    @UploadedFiles(ResizeImagePipe) files: Express.Multer.File[],
+  ) {
     console.log('files: ', files);
+
     const s3Client = new S3Client({
       region: process.env.AWS_BUCKET_REGION,
       credentials: {
@@ -34,9 +38,9 @@ export class ImagesController {
     const uploadPromise = files.map((file) => {
       const fileName = getUniqueFileName(file, uuid);
       const uploadParams = {
+        Body: file.buffer,
         Bucket: process.env.AWS_BUCKET_NAME,
         Key: `original/${fileName}`,
-        Body: file.buffer,
       };
       const command = new PutObjectCommand(uploadParams);
 
